@@ -110,31 +110,30 @@ generate:
 build: test build-go build-image
 
 build-go:
-	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build \
+	CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build \
 		-ldflags "-X github.com/$(REPO)/pkg/version.Version=$(VERSION) -X github.com/$(REPO)/pkg/version.GitSHA=$(GIT_SHA)" \
-		-o bin/$(PROJECT_NAME)-linux-amd64 main.go
-	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build \
+		-o bin/$(PROJECT_NAME)-linux-arm64 main.go
+	CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build \
 		-ldflags "-X github.com/$(REPO)/pkg/version.Version=$(VERSION) -X github.com/$(REPO)/pkg/version.GitSHA=$(GIT_SHA)" \
-		-o bin/$(EXPORTER_NAME)-linux-amd64 cmd/exporter/main.go
-	CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build \
+		-o bin/$(EXPORTER_NAME)-linux-arm64 cmd/exporter/main.go
+	CGO_ENABLED=0 GOOS=darwin GOARCH=arm64 go build \
 		-ldflags "-X github.com/$(REPO)/pkg/version.Version=$(VERSION) -X github.com/$(REPO)/pkg/version.GitSHA=$(GIT_SHA)" \
-		-o bin/$(PROJECT_NAME)-darwin-amd64 main.go
-	CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build \
+		-o bin/$(PROJECT_NAME)-darwin-arm64 main.go
+	CGO_ENABLED=0 GOOS=darwin GOARCH=arm64 go build \
 		-ldflags "-X github.com/$(REPO)/pkg/version.Version=$(VERSION) -X github.com/$(REPO)/pkg/version.GitSHA=$(GIT_SHA)" \
-		-o bin/$(EXPORTER_NAME)-darwin-amd64 cmd/exporter/main.go
-	CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build \
+		-o bin/$(EXPORTER_NAME)-darwin-arm64 cmd/exporter/main.go
+	CGO_ENABLED=0 GOOS=windows GOARCH=arm64 go build \
 		-ldflags "-X github.com/$(REPO)/pkg/version.Version=$(VERSION) -X github.com/$(REPO)/pkg/version.GitSHA=$(GIT_SHA)" \
-		-o bin/$(PROJECT_NAME)-windows-amd64.exe main.go
-	CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build \
+		-o bin/$(PROJECT_NAME)-windows-arm64.exe main.go
+	CGO_ENABLED=0 GOOS=windows GOARCH=arm64 go build \
 		-ldflags "-X github.com/$(REPO)/pkg/version.Version=$(VERSION) -X github.com/$(REPO)/pkg/version.GitSHA=$(GIT_SHA)" \
-		-o bin/$(EXPORTER_NAME)-windows-amd64.exe cmd/exporter/main.go
+		-o bin/$(EXPORTER_NAME)-windows-arm64.exe cmd/exporter/main.go
 
 build-image:
 	docker build --build-arg VERSION=$(VERSION) --build-arg DOCKER_REGISTRY=$(DOCKER_REGISTRY) --build-arg DISTROLESS_DOCKER_REGISTRY=$(DISTROLESS_DOCKER_REGISTRY) --build-arg GIT_SHA=$(GIT_SHA) -t $(REPO):$(VERSION) .
 	docker tag $(REPO):$(VERSION) $(REPO):latest
 
 build-zk-image:
-
 	docker build --build-arg VERSION=$(VERSION)  --build-arg DOCKER_REGISTRY=$(DOCKER_REGISTRY) --build-arg GIT_SHA=$(GIT_SHA) -t $(APP_REPO):$(VERSION) ./docker
 	docker tag $(APP_REPO):$(VERSION) $(APP_REPO):latest
 
